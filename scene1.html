@@ -176,9 +176,9 @@
           .range([ height, 0 ]);
         svg.append("g")
           .call(d3.axisLeft(y));
-        
+          
+        //////////////////////////////////////////////////////////////////////////////////////////////
         var dataFilter = data.filter(function(d){return d.country=="United States"})
-
         // Add the line
         svg.append("path")
           .datum(dataFilter)
@@ -226,7 +226,8 @@
             .style("font-size", "15px")
             .attr("alignment-baseline","middle")
         })
-    
+
+    /////////////////////////////////////////////////////////////////////////////////////////////
     const annotation1 = d3.annotation()
       .annotations(spike1)
     svg.append("g")

@@ -1,81 +1,16 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-<title>CS 416: Li Padilla Final Project</title>
-<script src="https://d3js.org/d3.v4.js"></script>
-<script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
-        integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-<!-- <link rel="stylesheet" href="style.css"> -->
-<!-- ---------------------------------------------------------------------------------------------------------------- -->
-<style>
-    .top {
-        font-family: Verdana, Geneva, Tahoma, sans-serif;
-        background-color: dodgerblue;
-        color: white;
-        margin: 10px;
-        padding: 10px;
-        box-shadow: 0px 0px 10px gray;
-    }
-    
-    .info {
-      /* width: 300px; */
-      /* height: 100px; */
-      margin: 15px;
-      padding: 15px;
-      background-color: white;
-      box-shadow: 0px 0px 10px gray;
-      font-family: Verdana, Geneva, Tahoma, sans-serif;
-    }
-    </style>
-<!-- ---------------------------------------------------------------------------------------------------------------- -->
-</head>
-<!-- <body onload='renderFirstChart()'> -->
-<div class="container">
-    <div align = "center">
-        <h4 style="font-family:verdana;"">CS 416: Data Visualization Final Project</h4>
-        <h4 style="font-family:verdana;"">UIUC | Summer 2024 | Li Padilla</h4>
-        <hr>
-        <!-- <h2 style="font-family:verdana;color:white;background-color:DodgerBlue;"">Expected vs. Excess Deaths During the COVID-19 Pandemic</h2> -->
-        <div class="top"">
-            <h2>Expected vs. Excess Deaths During the COVID-19 Pandemic</h2>
-        </div>
-
-        <div class="info">
-            <div align ="left">
-                <h3 style="font-size: large;">Excess Deaths in Other Countries (2020)</h3>
-                <p>
-                    As you can see from the previous 4 charts of data, the death toll exceeded the expected death toll derived from the predictive model based on previous years' data for both countries. 
-                    This only further proves that severity and abrupt nature of the COVID-19 pandemic and why it throttled many countries into lockdown.
-                </p>
-                <p>
-                    The New York Times provides data for several other countries that were able to provide sufficient data representing actual death tolls and national mortality statistics in previous years.
-                    Now that you're familiar with the data and what it can provide, you can now explore other countries' data.
-                </p>
-                <ul>
-                    <li><span class="glyphicon glyphicon-exclamation-sign"/></span><b> Use the dropdown menu below to view another country's excess death toll</b></li>
-                </ul>
-
-            </div>
-        </div>
-        
-        <select id="selectButton"></select>
-        <div id="my_dataviz"></div>
-        
-        <button><a href="index.html">Back to the Beginning</a></button>
-        <p style="font-size: small;">
-            <br>This concludes the narrative visualization.<br>
-            <br>Sources:<br>
-            <a href="https://github.com/nytimes/covid-19-data/tree/master/excess-deaths">NYT COVID-19 Source data</a><br>
-            <a href="https://d3-graph-gallery.com/graph/line_filter.html">D3 Selection</a> (Modified)
-        </p>
-    </div>
-
-</div>
-
+<meta charset="utf-8">
 
 <!-- Load d3.js -->
+<script src="https://d3js.org/d3.v4.js"></script>
+<script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
+<!-- Initialize a select button -->
+
+<select id="selectButton"></select>
 <!-- Create a div where the graph will take place -->
+<div id="my_dataviz"></div>
+
+<!-- Color Scale -->
 
 <script>
     // set the dimensions and margins of the graph
@@ -95,7 +30,6 @@
     d3.csv("https://raw.githubusercontent.com/nytimes/covid-19-data/master/excess-deaths/deaths.csv",
     function(d){
         return { // only keeping country, date, and deaths
-            frequency : d.frequency,
             date : d3.timeParse("%Y-%m-%d")(d.start_date),
             deaths : d.deaths,
             expected_deaths : d.expected_deaths,
@@ -104,9 +38,7 @@
       },
     function(data) {
         // list of countries
-        var countryFilter = data.filter(function(d){return d.frequency=="weekly"})
-        var allCountries = d3.map(countryFilter, function(d){return d.country}).keys()
-
+        var allCountries = d3.map(data, function(d){return(d.country)}).keys()
         const startDate = new Date("2020-01-01"); // 2020-01-06
         const endDate = new Date("2020-12-31"); //2020-12-14
         // add the options to the button
@@ -271,5 +203,3 @@
     
     
     </script>
-</body>
-</html>
