@@ -177,7 +177,7 @@
         svg.append("g")
           .call(d3.axisLeft(y));
         
-        var dataFilter = data.filter(function(d){return d.country==allCountries[34]})
+        var dataFilter = data.filter(function(d){return d.country=="United States"})
 
         // Add the line
         svg.append("path")
@@ -193,7 +193,7 @@
         svg.append("path")
           .datum(dataFilter)
           .attr("fill", "none")
-          .attr("stroke", "gold")
+          .attr("stroke", "pink")
           .attr("stroke-width", 1.5)
           .attr("d", d3.line()
             .x(function(d){ return x(d.date) })
@@ -218,7 +218,7 @@
             .attr("y", 30)
             .attr("width", 20)
             .attr("height", 20)
-            .attr("fill", "gold")
+            .attr("fill", "pink")
         svg.append("text")
             .attr("x", width-120)
             .attr("y", 40)

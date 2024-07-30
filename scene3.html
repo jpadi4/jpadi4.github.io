@@ -92,8 +92,8 @@
           radiusPadding: 0   // white space around circle befor connector
         },
         color: ["grey"],
-        x: 350,
-        y: 280,
+        x: 375,
+        y: 210,
         dy: -50,
         dx: -40
       }
@@ -130,7 +130,7 @@
         // Add Y axis
         var y = d3.scaleLinear()
         //   .domain([0, d3.max(data, function(d) { return +d.deaths; })])
-          .domain([0, 100000])
+          .domain([0, 60000])
           .range([ height, 0 ]);
         svg.append("g")
           .call(d3.axisLeft(y));
@@ -152,7 +152,7 @@
         svg.append("path")
           .datum(dataFilter2)
           .attr("fill", "none")
-          .attr("stroke", "gold")
+          .attr("stroke", "pink")
           .attr("stroke-width", 1.5)
           .attr("d", d3.line()
             .x(function(d){ return x(d.date) })
@@ -177,7 +177,7 @@
             .attr("y", 30)
             .attr("width", 20)
             .attr("height", 20)
-            .attr("fill", "gold")
+            .attr("fill", "pink")
         svg.append("text")
             .attr("x", width-120)
             .attr("y", 40)
