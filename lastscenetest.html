@@ -68,7 +68,7 @@
         var line = svg
           .append('g')
           .append("path")
-            .datum(data.filter(function(d){return d.country==allCountries[34]}))
+            .datum(data.filter(function(d){return d.country==allCountries[0]}))
             .attr("d", d3.line()
               .x(function(d) { return x(d.year) })
               .y(function(d) { return y(+d.excess_deaths) })
@@ -77,29 +77,29 @@
             .style("stroke-width", 4)
             .style("fill", "none")
     
-        // // A function that update the chart when something is selected from dropdown
-        // function update(selectedCountry) {
+        // A function that update the chart when something is selected from dropdown
+        function update(selectedCountry) {
     
-        //   // Create new data with the selection?
-        //   var dataFilter = data.filter(function(d){return d.country==selectedCountry})
+          // Create new data with the selection?
+          var dataFilter = data.filter(function(d){return d.country==selectedCountry})
     
-        //   // Give these new data to update line
-        //   line
-        //       .datum(dataFilter)
-        //       .transition()
-        //       .duration(1000)
-        //       .attr("d", d3.line()
-        //         .x(function(d) { return x(d.year) })
-        //         .y(function(d) { return y(+d.excess_deaths) })
-        //       )
-        //       .attr("stroke", function(d){ return myColor(red) })
-        // }
+          // Give these new data to update line
+          line
+              .datum(dataFilter)
+              .transition()
+              .duration(1000)
+              .attr("d", d3.line()
+                .x(function(d) { return x(d.year) })
+                .y(function(d) { return y(+d.excess_deaths) })
+              )
+              .attr("stroke", function(d){ return myColor(red) })
+        }
     
-        // // when a new country is selected from the  the chart has to be updated
-        // d3.select("#selectButton").on("change", function(d) {
-        //     var selectedOption = d3.select(this).property("value")
-        //     update(selectedOption) // update the chart with new country
-        // })
+        // when a new country is selected from the  the chart has to be updated
+        d3.select("#selectButton").on("change", function(d) {
+            var selectedOption = d3.select(this).property("value")
+            update(selectedOption) // update the chart with new country
+        })
     
     })
     
