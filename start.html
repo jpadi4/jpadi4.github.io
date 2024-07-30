@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>CS 416: Li Padilla Final Project</title>
+<script src="https://d3js.org/d3.v7.min.js"></script>
+<script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
+<script src="scripts/app.js"></script>
+<script src="https://code.jquery.com/jquery-2.2.4.min.js"
+        integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+        integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+        integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+        crossorigin="anonymous"></script>
+<!-- <link rel="stylesheet" href="style.css"> -->
+<!-- ---------------------------------------------------------------------------------------------------------------- -->
+<style>
+.top {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    background-color: dodgerblue;
+    color: white;
+    margin: 10px;
+    padding: 10px;
+    box-shadow: 0px 0px 10px gray;
+}
+
+.info {
+  /* width: 300px; */
+  /* height: 100px; */
+  margin: 15px;
+  padding: 15px;
+  background-color: white;
+  box-shadow: 0px 0px 10px gray;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+</style>
+<!-- ---------------------------------------------------------------------------------------------------------------- -->
+</head>
+<!-- <body onload='renderFirstChart()'> -->
+<div class="container">
+    <div align = "center">
+        <h4 style="font-family:verdana;"">CS 416: Data Visualization Final Project</h4>
+        <h4 style="font-family:verdana;"">UIUC | Summer 2024 | Li Padilla</h4>
+        <hr>
+        <!-- <h2 style="font-family:verdana;color:white;background-color:DodgerBlue;"">Expected vs. Excess Deaths During the COVID-19 Pandemic</h2> -->
+        <div class="top"">
+            <h2>Expected vs. Excess Deaths During the COVID-19 Pandemic</h2>
+        </div>
+    </div>
+
+
+        <div class="info">
+            <h4>Introduction</h4>
+            <p>The COVID-19 pandemic drastically halted all "regular" life.
+            This narrative visualization aims to emphasize how COVID altered
+            aspects of life, more specifically, yearly average mortality.
+            The data is not exhaustive past 2020, but this narrative aims to
+            illustrate not only the severity of the early stages of the pandemic
+            but also shows how the abrupt rise of COVID makes the predictive models diverge from reality.</p>
+            
+            <p>The <a href="https://github.com/nytimes/covid-19-data/tree/master/excess-deaths">excess deaths dataset</a>
+            featured is part of the New York times <a href="https://github.com/nytimes/covid-19-data/tree/master">COVID-19 data</a>.</p>
+        </div>
+
+        <div align="center"><button><a href="scene1.html">Continue</a></button></div>
+    </div>
+</div>
+</body>
+</html>
