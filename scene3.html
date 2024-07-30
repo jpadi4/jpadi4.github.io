@@ -48,25 +48,19 @@
                 <h3 style="font-size: large;">Estimated Deaths and Actual Deaths in Mexico (2020)</h3>
                 <b>Expected deaths</b>
                 <p>
-                    The predicted number of deaths in a year is calculated for each country in the dataset.
-                    These estimations are based on a country's respective source data and baseline years and
-                    are estimated by a (weekly) <i>linear</i> model. 
-                </p>
-                <p>
-                    For predictive United States model, the data is based off of the baseline years of 2015-2019 from the Centers for Disease Control and Prevention.
+                    The source of data for Mexico is statistics from the Mexican government; the predictive model is based on average death statistics from the baseline years of 2015-2018.
                 </p>
 
                 <b>Actual deaths</b>
                 <p>
-                    While self-explanatory, it's important to view the actual deaths in the context of what the
-                    expected death toll is to 
+                    Again, the actual death toll exceeds the expected death toll especially in the middle of the year.
                 </p>
 
             </div>
         </div>
         <div id="chart_data"></div>
-        <button><a href="start.html">Previous</a></button>
-        <button><a href="scene2.html">Continue</a></button>
+        <button><a href="scene2.html">Previous</a></button>
+        <button><a href="scene4.html">Continue</a></button>
     </div>
 </div>
 
@@ -90,7 +84,7 @@
     const spike1 = [
       {
         note: {
-          label: "Notice the spike in actual deaths around March/April; in an average year, the expected number of deaths at this time of year is much lower.",
+          label: "For the year of 2020, there is one noticeable increase of deaths in Mexico, which lasts between May to roughly August with a spike in mid June.",
         },
         type: d3.annotationCalloutCircle,
         subject: {
@@ -98,45 +92,9 @@
           radiusPadding: 0   // white space around circle befor connector
         },
         color: ["grey"],
-        x: 200,
-        y: 120,
-        dy: 70,
-        dx: -40
-      }
-    ]
-
-    const spike2 = [
-      {
-        note: {
-          label: "Here is another spike in actual deaths around August",
-        },
-        type: d3.annotationCalloutCircle,
-        subject: {
-          radius: 30,        // circle radius
-          radiusPadding: 0   // white space around circle befor connector
-        },
-        color: ["grey"],
-        x: 400,
-        y: 150,
+        x: 350,
+        y: 280,
         dy: -50,
-        dx: -40
-      }
-    ]
-
-    const spike3 = [
-      {
-        note: {
-          label: "And another spike around December!",
-        },
-        type: d3.annotationCalloutCircle,
-        subject: {
-          radius: 30,        // circle radius
-          radiusPadding: 0   // white space around circle befor connector
-        },
-        color: ["grey"],
-        x: 650,
-        y: 130,
-        dy: 90,
         dx: -40
       }
     ]
@@ -178,10 +136,11 @@
           .call(d3.axisLeft(y));
         
         var dataFilter = data.filter(function(d){return d.country=="Mexico"})
+        var dataFilter2 = dataFilter.filter(function(d){return d.date>= startDate})
 
         // Add the line
         svg.append("path")
-          .datum(dataFilter)
+          .datum(dataFilter2)
           .attr("fill", "none")
           .attr("stroke", "steelblue")
           .attr("stroke-width", 1.5)
@@ -191,7 +150,7 @@
         )
 
         svg.append("path")
-          .datum(dataFilter)
+          .datum(dataFilter2)
           .attr("fill", "none")
           .attr("stroke", "gold")
           .attr("stroke-width", 1.5)
@@ -231,16 +190,6 @@
       .annotations(spike1)
     svg.append("g")
       .call(annotation1)
-
-    const annotation2 = d3.annotation()
-      .annotations(spike2)
-    svg.append("g")
-      .call(annotation2)
-
-      const annotation3 = d3.annotation()
-      .annotations(spike3)
-    svg.append("g")
-      .call(annotation3)
 
     
     </script>
