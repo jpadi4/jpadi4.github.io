@@ -2,7 +2,10 @@
 <html lang="en">
 <head>
 <title>CS 416: Li Padilla Final Project</title>
+<!-- Load d3.js -->
 <script src="https://d3js.org/d3.v4.min.js"></script>
+<!-- Load d3-annotation -->
+<script src="https://rawgit.com/susielu/d3-annotation/master/d3-annotation.min.js"></script>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
         integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 <!-- <link rel="stylesheet" href="style.css"> -->
@@ -42,15 +45,15 @@
 
         <div class="info">
             <div align ="left">
-                <h3 style="font-size: large;">Estimated Deaths and Actual Deaths in the United States</h3>
+                <h3 style="font-size: large;">Estimated Deaths and Actual Deaths in the United States (2020)</h3>
                 <b>Expected deaths</b>
                 <p>
                     The predicted number of deaths in a year is calculated for each country in the dataset.
                     These estimations are based on a country's respective source data and baseline years and
-                    are estimated by a <i>linear</i> model. 
+                    are estimated by a (weekly) <i>linear</i> model. 
                 </p>
                 <p>
-                    For predictive United States model, 
+                    For predictive United States model, the data is based off of the baseline years of 2015-2019 from the Centers for Disease Control and Prevention.
                 </p>
 
                 <b>Actual deaths</b>
@@ -83,6 +86,61 @@
         .attr("transform",
               "translate(" + margin.left + "," + margin.top + ")");
     
+    
+    const spike1 = [
+      {
+        note: {
+          label: "Notice the spike in actual deaths around March/April; in an average year, the expected number of deaths at this time of year is much lower.",
+        },
+        type: d3.annotationCalloutCircle,
+        subject: {
+          radius: 50,        // circle radius
+          radiusPadding: 0   // white space around circle befor connector
+        },
+        color: ["grey"],
+        x: 200,
+        y: 120,
+        dy: 70,
+        dx: -40
+      }
+    ]
+
+    const spike2 = [
+      {
+        note: {
+          label: "Here is another spike in actual deaths around August",
+        },
+        type: d3.annotationCalloutCircle,
+        subject: {
+          radius: 30,        // circle radius
+          radiusPadding: 0   // white space around circle befor connector
+        },
+        color: ["grey"],
+        x: 400,
+        y: 150,
+        dy: -50,
+        dx: -40
+      }
+    ]
+
+    const spike3 = [
+      {
+        note: {
+          label: "And another spike around December!",
+        },
+        type: d3.annotationCalloutCircle,
+        subject: {
+          radius: 30,        // circle radius
+          radiusPadding: 0   // white space around circle befor connector
+        },
+        color: ["grey"],
+        x: 650,
+        y: 130,
+        dy: 90,
+        dx: -40
+      }
+    ]
+
     //Read the data
     d3.csv("https://raw.githubusercontent.com/jpadi4/jpadi4.github.io/main/deaths.csv",
     
@@ -141,8 +199,49 @@
             .x(function(d){ return x(d.date) })
             .y(function(d){ return y(d.expected_deaths) })
         )
+        
+        // legend
+        svg.append("rect")
+            .attr("x", width-150)
+            .attr("y", 0)
+            .attr("width", 20)
+            .attr("height", 20)
+            .attr("fill", "steelblue")
+        svg.append("text")
+            .attr("x", width-120)
+            .attr("y", 10)
+            .text("Actual Deaths")
+            .style("font-size", "15px")
+            .attr("alignment-baseline","middle")
+        svg.append("rect")
+            .attr("x", width-150)
+            .attr("y", 30)
+            .attr("width", 20)
+            .attr("height", 20)
+            .attr("fill", "gold")
+        svg.append("text")
+            .attr("x", width-120)
+            .attr("y", 40)
+            .text("Expected Deaths")
+            .style("font-size", "15px")
+            .attr("alignment-baseline","middle")
+        })
     
-    })
+    const annotation1 = d3.annotation()
+      .annotations(spike1)
+    svg.append("g")
+      .call(annotation1)
+
+    const annotation2 = d3.annotation()
+      .annotations(spike2)
+    svg.append("g")
+      .call(annotation2)
+
+      const annotation3 = d3.annotation()
+      .annotations(spike3)
+    svg.append("g")
+      .call(annotation3)
+
     
     </script>
 

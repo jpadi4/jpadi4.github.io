@@ -2,7 +2,10 @@
 <html lang="en">
 <head>
 <title>CS 416: Li Padilla Final Project</title>
+<!-- Load d3.js -->
 <script src="https://d3js.org/d3.v4.min.js"></script>
+<!-- Load d3-annotation -->
+<script src="https://rawgit.com/susielu/d3-annotation/master/d3-annotation.min.js"></script>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
         integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 <!-- <link rel="stylesheet" href="style.css"> -->
@@ -42,22 +45,183 @@
 
         <div class="info">
             <div align ="left">
-                <h3 style="font-size: large;">Excess Deaths in the United States</h3>
-                
+                <h3 style="font-size: large;">Excess Deaths in the United States (2020)</h3>
+                <b>Excess deaths</b>
+                <p>
+                    Excess deaths are calculated from the difference between predicted deaths and actual deaths. 
+                </p>
             </div>
         </div>
-        
+        <div id="chart_data"></div>
         <button><a href="scene1.html">Previous</a></button>
         <button><a href="scene3.html">Continue</a></button>
     </div>
 </div>
 
-<div id="my_dataviz"></div>
-<!-- Load d3.js -->
-<!-- <script src="https://d3js.org/d3.v4.js"></script> -->
 
-<!-- Create a div where the graph will take place -->
-<div id="my_dataviz"></div>
+<script>
+    // set the dimensions and margins of the graph
+    var margin = {top: 10, right: 30, bottom: 30, left: 60},
+        width = 800 - margin.left - margin.right, // chart width
+        height = 400 - margin.top - margin.bottom; // chart height
+    
+    // append the svg object to the body of the page
+    var svg = d3.select("#chart_data")
+      .append("svg")
+        .attr("width", width + margin.left + margin.right)
+        .attr("height", height + margin.top + margin.bottom)
+      .append("g")
+        .attr("transform",
+              "translate(" + margin.left + "," + margin.top + ")");
+    
+    
+    const spike1 = [
+      {
+        note: {
+          label: "Actual deaths exceeded the predictive model by about 25,000 deaths around April/May, which is roughly when COVID-19 first spiked in the US",
+        },
+        type: d3.annotationCalloutCircle,
+        subject: {
+          radius: 50,        // circle radius
+          radiusPadding: 0   // white space around circle befor connector
+        },
+        color: ["grey"],
+        x: 200,
+        y: 120,
+        dy: 70,
+        dx: -40
+      }
+    ]
+
+    const spike2 = [
+      {
+        note: {
+          label: "An August spike occurred due to loosened lockdown efforts",
+        },
+        type: d3.annotationCalloutCircle,
+        subject: {
+          radius: 30,        // circle radius
+          radiusPadding: 0   // white space around circle befor connector
+        },
+        color: ["grey"],
+        x: 400,
+        y: 150,
+        dy: -50,
+        dx: -40
+      }
+    ]
+
+    const spike3 = [
+      {
+        note: {
+          label: "A December spike might have occurred due to seasonal variation",
+        },
+        type: d3.annotationCalloutCircle,
+        subject: {
+          radius: 30,        // circle radius
+          radiusPadding: 0   // white space around circle befor connector
+        },
+        color: ["grey"],
+        x: 650,
+        y: 130,
+        dy: 90,
+        dx: -40
+      }
+    ]
+
+    //Read the data
+    d3.csv("https://raw.githubusercontent.com/jpadi4/jpadi4.github.io/main/deaths.csv",
+    
+      // format variables
+      function(d){
+        return { // only keeping country, date, and deaths
+            date : d3.timeParse("%Y-%m-%d")(d.start_date),
+            deaths : d.deaths,
+            expected_deaths : d.expected_deaths,
+            excess_deaths : d.excess_deaths,
+            country : d.country }
+      },
+    
+      // Now I can use this dataset:
+      function(data) {
+        var allCountries = d3.map(data, function(d){return(d.country)}).keys()
+        const startDate = new Date("2020-01-01"); // 2020-01-06
+        const endDate = new Date("2020-12-31"); //2020-12-14
+        
+        // Add X axis --> it is a date format
+        var x = d3.scaleTime()
+        //   .domain(d3.extent(data, function(d) { return d.start_date; }))
+          .domain([startDate, endDate])
+          .range([ 0, width ]);
+        svg.append("g")
+          .attr("transform", "translate(0," + height + ")")
+          .call(d3.axisBottom(x));
+        
+        // Add Y axis
+        var y = d3.scaleLinear()
+        //   .domain([0, d3.max(data, function(d) { return +d.deaths; })])
+          .domain([-20000, 30000])
+          .range([ height, 0 ]);
+        svg.append("g")
+          .call(d3.axisLeft(y));
+        
+        var dataFilter = data.filter(function(d){return d.country==allCountries[34]})
+
+        // Add the line
+        svg.append("path")
+          .datum(dataFilter)
+          .attr("fill", "none")
+          .attr("stroke", "steelblue")
+          .attr("stroke-width", 1.5)
+          .attr("d", d3.line()
+            .x(function(d){ return x(d.date) })
+            .y(function(d){ return y(d.excess_deaths) })
+        )
+        
+        // legend
+        svg.append("rect")
+            .attr("x", width-150)
+            .attr("y", 0)
+            .attr("width", 20)
+            .attr("height", 20)
+            .attr("fill", "steelblue")
+        svg.append("text")
+            .attr("x", width-120)
+            .attr("y", 10)
+            .text("Actual Deaths")
+            .style("font-size", "15px")
+            .attr("alignment-baseline","middle")
+        svg.append("rect")
+            .attr("x", width-150)
+            .attr("y", 30)
+            .attr("width", 20)
+            .attr("height", 20)
+            .attr("fill", "gold")
+        svg.append("text")
+            .attr("x", width-120)
+            .attr("y", 40)
+            .text("Expected Deaths")
+            .style("font-size", "15px")
+            .attr("alignment-baseline","middle")
+        })
+    
+    const annotation1 = d3.annotation()
+      .annotations(spike1)
+    svg.append("g")
+      .call(annotation1)
+
+    const annotation2 = d3.annotation()
+      .annotations(spike2)
+    svg.append("g")
+      .call(annotation2)
+
+      const annotation3 = d3.annotation()
+      .annotations(spike3)
+    svg.append("g")
+      .call(annotation3)
+
+    
+    </script>
 
 </body>
 </html>

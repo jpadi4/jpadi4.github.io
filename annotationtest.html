@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+
+<!-- Load d3.js -->
+<script src="https://d3js.org/d3.v4.js"></script>
+<script src="https://rawgit.com/susielu/d3-annotation/master/d3-annotation.min.js"></script>
+
+<!-- Create a div where the graph will take place -->
+<svg width="460" height="400" id="chart_data"></svg>
+<script>
+
+    // ==== LEFT ====== //
+    const annotations = [
+      {
+        note: {
+          label: "Notice the spike in actual deaths around March/April; in an average year, the expected number of deaths at this time of year is much lower.",
+        },
+        type: d3.annotationCalloutCircle,
+        subject: {
+          radius: 30,        // circle radius
+          radiusPadding: 0   // white space around circle befor connector
+        },
+        color: ["black"],
+        x: 40,
+        y: 160,
+        dy: 70,
+        dx: 70
+      }
+    ]
+    
+    // Add annotation to the chart
+    const makeAnnotations = d3.annotation()
+      .annotations(annotations)
+    d3.select("#chart_data")
+      .append("g")
+      .call(makeAnnotations)
+    
+    
+    // ==== RIGHT ====== //
+    const annotationsRight = [
+      {
+        note: {
+          label: "Here is the annotation label",
+          title: "Annotation title"
+        },
+        type: d3.annotationCalloutRect,
+        subject: {
+          width: 60,
+          height: 60
+        },
+        x: 220,
+        y: 130,
+        dy: 100,
+        dx: 100
+      }
+    ]
+    
+    // Add annotation to the chart
+    const makeAnnotationsRight = d3.annotation()
+      .annotations(annotationsRight)
+    d3.select("#chart_data")
+      .append("g")
+      .call(makeAnnotationsRight)
+    
+    </script>
